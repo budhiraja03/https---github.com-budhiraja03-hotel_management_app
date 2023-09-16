@@ -451,9 +451,9 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
   Future<void> _registerUser() async{
-    String name = _nameController.text;
-    String email = _emailController.text;
-    String phone = _phoneController.text;
+    String name = _nameController.text.trim();
+    String email = _emailController.text.trim();
+    String phone = _phoneController.text.trim();
     String hotelName = _hotelNameController.text;
     String country = selectedValue;
     String district = _districtController.text;
@@ -468,15 +468,15 @@ class _SignUpPageState extends State<SignUpPage> {
       final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
     // Store registration form data in Firestore
-    firestore.collection('managers').doc(_auth.currentUser!.uid).set({
-      'name': name,
-      'email': email,
-      'phone': phone,
-      'hotelName': hotelName,
-      'country': country,
-      'district': district,
-      'city': city,
-    });
+      await firestore.collection('managers').doc(_auth.currentUser!.uid).set({
+        'name': name,
+        'email': email,
+        'phone': phone,
+        'hotelName': hotelName,
+        'country': country,
+        'district': district,
+        'city': city,
+      });
 
     _showSuccessSnackbar('Registration successful! Welcome to the app.');
     Navigator.of(context).pushReplacement(
